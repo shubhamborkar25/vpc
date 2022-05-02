@@ -6,17 +6,17 @@ region 1 (osaka)
 	create 2 subnet (public-subnet-osaka) 172.72.8.0/21
 					(private-subnet-osaka) 172.72.16.0/21
 	lauch 2 instance (public-instance-osaka) vpc -- vpc-osaka
-											subnet -- public-subnet-osaka
-											SG -- ssh
-					(private-instance-osaka ) vpc -- vpc-osaka
-											subnet -- private-subnet-osaka
-											SG -- ssh
+						subnet -- public-subnet-osaka
+						SG -- ssh
+			(private-instance-osaka ) vpc -- vpc-osaka
+						subnet -- private-subnet-osaka
+						SG -- ssh
 region 2 (mumbai)
 	create vpc (vpc-mumbai) 154.96.0.0/18
 	create subnet (private-subnet-mumbai) 154.96.0.0/21
 	lauch instance (private-instance-mumbai) vpc -- vpc-mumbai
-											subnet -- private-subnet-mumbai
-											SG -- ssh
+						subnet -- private-subnet-mumbai	
+						SG -- ssh
 OSAKA
 	create peering connection
 		vpc -- vpc-osaka
