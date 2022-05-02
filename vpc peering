@@ -1,0 +1,55 @@
+vpc peering
+attach two vpc 
+
+region 1 (osaka)
+	create vpc (vpc-osaka) 172.72.0.0/18
+	create 2 subnet (public-subnet-osaka) 172.72.8.0/21
+					(private-subnet-osaka) 172.72.16.0/21
+	lauch 2 instance (public-instance-osaka) vpc -- vpc-osaka
+											subnet -- public-subnet-osaka
+											SG -- ssh
+					(private-instance-osaka ) vpc -- vpc-osaka
+											subnet -- private-subnet-osaka
+											SG -- ssh
+region 2 (mumbai)
+	create vpc (vpc-mumbai) 154.96.0.0/18
+	create subnet (private-subnet-mumbai) 154.96.0.0/21
+	lauch instance (private-instance-mumbai) vpc -- vpc-mumbai
+											subnet -- private-subnet-mumbai
+											SG -- ssh
+OSAKA
+	create peering connection
+		vpc -- vpc-osaka
+		peer with -- my account
+		region -- mumbai
+		vpc id -- (vpc-mumbai id)
+		
+MUMBAI 
+	peering connection
+		action --> accept
+		
+	route tables 
+		edit rules 
+			add
+			destination -- public-subnet-osaka (172.72.8.0/21)
+			target -- peering connection
+OSAKA
+	Internet Gateway
+	create IG  (ig-osaka)
+		attach to vpc-osaka
+		
+	
+	route tables 
+		edit rules 
+			add
+			destination -- private-subnet-mumbai (154.96.0.0/21)
+			target -- peering connection
+			add
+			destination -- 0.0.0.0/0
+			target -- internet gateway (ig-osaka)
+
+MOBAXTREAM
+	access public-instance-osaka 
+	sudo -i
+	paste osaka & mumbai key
+	ssh -i /home/ec2-user/mumbai.key ec2-user@<private-instance-mumbai private ip>
