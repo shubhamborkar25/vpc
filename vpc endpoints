@@ -1,0 +1,53 @@
+VPC Endpoints
+
+use when we have to show services data like s3
+on private instance
+
+all in same region
+
+create vpc   (my-vpc)
+create 2 subnets  
+	1. private-subnet 
+	2. public-subnet
+
+create internet gateway
+	name my-ig 
+	assign to vpc (my-vpc)
+
+entry in route tables
+	route
+		destination 0.0.0.0/0
+		target internet gateway (my-ig)
+
+Create Endpoints
+	name -- my-endpoint
+	services  -- s3 gateway(type)
+	vpc -- my-vpc
+	route tables - rt
+	
+create 2 instance
+	1. private-instance
+		vpc -- my-vpc
+		subnet -- private-subnet
+	2. public-instance
+		vpc -- my-vpc
+		subnet -- public-subnet
+aasign role to private instance
+	modify iam role 
+		ec2-s3 role
+
+create 2 s3 buckets in same region
+
+MOBAXTREAM
+
+	login with public-instancekey
+	
+	paste key
+	
+	sudo -i
+	ssh -i /home/ec2-user/mykey ec2-user@<private-instance ip >
+	
+	sudo -i
+	aws configure
+	set region 
+	aws s3 ls  (showing buckets)
